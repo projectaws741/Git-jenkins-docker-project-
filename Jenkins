@@ -30,7 +30,7 @@ pipeline
             steps
             {
                 sshagent(['private-key']) {
-                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.83.144 sudo docker run --name krishna -p 8086:80 -d projectaws/myapp"
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.83.144 sudo docker run --name krishna1 -p 8086:80 -d projectaws/myapp"
                 
                 
             }
