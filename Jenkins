@@ -1,0 +1,40 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('scm')
+        {
+            steps
+            {
+                git branch: 'main', url: 'https://github.com/projectaws741/Git-jenkins-docker-project-.git'
+            }
+        }
+        stage('Execution')
+        {
+            steps
+            {
+               sh 'docker build -t projectaws/myapp .'
+            }
+        }
+        stage('Push docker image in registry')
+        {
+            steps
+            {
+                sh 'docker login -u "projectaws" -p "Kittu@12000" docker.io'
+                sh 'docker push projectaws/myapp'
+            }
+        }
+        stage('Running container on dev')
+        {
+            steps
+            {
+                sshagent(['private-key']) {
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.83.144 sudo docker run --name krishna -p 8081:80 -d projectaws/myapp"
+                
+                
+            }
+            }
+        }
+    }
+}
